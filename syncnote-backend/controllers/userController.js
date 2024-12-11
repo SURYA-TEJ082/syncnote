@@ -112,4 +112,21 @@ const view_notes = async (req, res) => {
   }
 };
 
+const view_note_by_id = async (req, res) => {
+  const { noteid } = req.params;
+
+  try {
+    const note = await Note.findOne({ _id: noteid });
+
+    if (!note) {
+      return res.status(404).json({ message: 'Note not found' });
+    }
+
+    res.json({ note, message: 'Note fetched successfully' });
+  } catch (error) {
+    console.error('Error fetching note:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
+};
+
 module.exports = { signup, signin, add_note, view_notes, view_note_by_id, edit_note, delete_note, getUserProfile, updatePassword, updateUserProfile};
