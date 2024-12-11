@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+limport React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import MainNav from "./MainNav";
 import axios from "axios";
@@ -112,7 +112,7 @@ const Login = () => {
       </div>
       <div className="signup">
         <div className="container">
-          <div className="title">Login to SmartBill</div>
+          <div className="title">Login to SyncNote</div>
           <form id="my_login_form" onSubmit={handleSubmit}>
             <div className="user-details">
               <div className="input-box">
