@@ -8,10 +8,9 @@ const signup = async (req, res) => {
   const { name, email, mobile, uname, password } = req.body;
 
   try {
-
     const existingUser = await User.findOne({ uname });
     if (existingUser) {
-      return res.status(400).json({ message: "Username already exist" });
+      return res.status(400).json({ message: "Username already exists" });
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -26,8 +25,20 @@ const signup = async (req, res) => {
 
     await newUser.save();
     res.status(201).json({ message: "User registered successfully!" });
+
   } catch (error) {
     console.error("Error during signup:", error);
+
+    if (error.name === "ValidationError") {
+      const errors = Object.keys(error.errors).map((field) => {
+        return {
+          field,
+          message: error.errors[field].message,
+        };
+      });
+      return res.status(400).json({ message: "Validation Error", errors });
+    }
+
     return res.status(500).json({ message: "Internal Server Error" });
   }
 };
