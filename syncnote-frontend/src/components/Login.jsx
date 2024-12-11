@@ -4,6 +4,7 @@ import MainNav from "./MainNav";
 import axios from "axios";
 import toast from "react-hot-toast"; import "react-toastify/dist/ReactToastify.css";
 import { BASE_URL } from "../config";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -97,11 +98,11 @@ const Login = () => {
   };
 
   const togglePasswordVisibility = () => {
-    setOpenCurrent(!openPassword);
+    setOpenPassword(!openPassword);
   };
 
   const toggleConfirmPasswordVisibility = () => {
-    setOpenCurrent(!openConfirmPassword);
+    setConfirmOpenPassword(!openConfirmPassword);
   };
 
   return (

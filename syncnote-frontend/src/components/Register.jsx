@@ -7,6 +7,7 @@ import { BASE_URL } from "../config";
 import MainNav from "./MainNav";
 import { useNavigate } from "react-router-dom";
 import BeatLoader from "react-spinners/BeatLoader";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 const Register = () => {
   const navigate = useNavigate();
@@ -120,13 +121,13 @@ const Register = () => {
   };
 
   const togglePasswordVisibility = () => {
-    setOpenCurrent(!openPassword);
+    setOpenPassword(!openPassword);
   };
 
   const toggleConfirmPasswordVisibility = () => {
-    setOpenCurrent(!openConfirmPassword);
+    setConfirmOpenPassword(!openConfirmPassword);
   };
-  
+
   return (
     <div>
       <div className="hero">
