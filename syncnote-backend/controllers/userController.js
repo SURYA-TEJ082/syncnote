@@ -189,6 +189,7 @@ const delete_note = async (req, res) => {
   }
 };
 
+
 const getUserProfile = async (req, res) => {
   try {
     const { uname } = req.params; 
@@ -279,6 +280,7 @@ const updateUserProfile = async (req, res) => {
   }
 };
 
+
 const updatePassword = async (req, res) => {
   try {
     const { uname } = req.params;
@@ -306,5 +308,6 @@ const updatePassword = async (req, res) => {
     res.status(500).json({ message: "Error updating password", error: error.message });
   }
 };
+
 
 module.exports = { signup, signin, add_note, view_notes, view_note_by_id, edit_note, delete_note, getUserProfile, updatePassword, updateUserProfile};
