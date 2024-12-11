@@ -31,3 +31,31 @@ const signup = async (req, res) => {
     return res.status(500).json({ message: "Internal Server Error" });
   }
 };
+
+const signin = async (req, res) => {
+  const { uname, password } = req.body;
+
+  try {
+    const user = await User.findOne({ uname });
+    if (!user) {
+      return res.status(StatusCodes.UNAUTHORIZED).json({ Error: 'Username Not Found' });
+    }
+
+    const isPasswordValid = await bcrypt.compare(password, user.password); 
+    if (!isPasswordValid) {
+      return res.status(StatusCodes.UNAUTHORIZED).json({ Error: 'Wrong Password' });
+    }
+
+    const token = jwt.sign(
+      { userId: user._id, username: user.username },
+      process.env.JWT_SECRET,
+      { expiresIn: '1d' }
+    );
+
+    res.status(StatusCodes.OK).json({ token, name: user.name, username: user.uname, message: "Login Successfull!!"  }); 
+  } catch (error) {
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ Error: 'Error signing in', error });
+  }
+};
+
+module.exports = { signup, signin, add_note, view_notes, view_note_by_id, edit_note, delete_note, getUserProfile, updatePassword, updateUserProfile};
