@@ -1,7 +1,7 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import axios from "axios";
-import toast from "react-hot-toast";import "react-toastify/dist/ReactToastify.css";
+import toast from "react-hot-toast"; import "react-toastify/dist/ReactToastify.css";
 import "../index.css";
 import { BASE_URL } from "../config";
 import MainNav from "./MainNav";
@@ -11,6 +11,9 @@ import BeatLoader from "react-spinners/BeatLoader";
 const Register = () => {
   const navigate = useNavigate();
   let [loading, setLoading] = useState(false);
+
+  const [openPassword, setOpenPassword] = useState(false);
+  const [openConfirmPassword, setConfirmOpenPassword] = useState(false);
 
   const [formData, setFormData] = useState({
     name: "",
@@ -37,9 +40,8 @@ const Register = () => {
   const load = () => {
     return (
       <div
-        className={`flex justify-center items-center h-screen ${
-          loading ? "block" : "hidden"
-        }`}
+        className={`flex justify-center items-center h-screen ${loading ? "block" : "hidden"
+          }`}
       >
         <div className="bg-white p-5 rounded-lg">
           <BeatLoader loading={loading} className="text-cyan-900 text-3xl" />
@@ -99,7 +101,7 @@ const Register = () => {
           },
         }
       );
-      
+
       toast.success(response.data.message);
 
       setTimeout(() => {
@@ -117,6 +119,14 @@ const Register = () => {
     }
   };
 
+  const togglePasswordVisibility = () => {
+    setOpenCurrent(!openPassword);
+  };
+
+  const toggleConfirmPasswordVisibility = () => {
+    setOpenCurrent(!openConfirmPassword);
+  };
+  
   return (
     <div>
       <div className="hero">
@@ -179,27 +189,57 @@ const Register = () => {
               </div>
               <div className="input-box">
                 <span className="details">Password</span>
-                <input
-                  type="password"
-                  name="password"
-                  placeholder="Enter your Password"
-                  required
-                  value={formData.password}
-                  onChange={handleChange}
-                  pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
-                  title="Password must contain at least one number, one uppercase letter, one lowercase letter, and be at least 8 characters long."
-                />
+                <div className="relative">
+                  <input
+                    type={openPassword ? "text" : "password"}
+                    name="password"
+                    placeholder="Enter your Password"
+                    required
+                    value={formData.password}
+                    onChange={handleChange}
+                    pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+                    title="Password must contain at least one number, one uppercase letter, one lowercase letter, and be at least 8 characters long."
+                  />
+                  <div className="absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer">
+                    {openPassword ? (
+                      <FaEyeSlash
+                        onClick={togglePasswordVisibility}
+                        className="text-gray-400"
+                      />
+                    ) : (
+                      <FaEye
+                        onClick={togglePasswordVisibility}
+                        className="text-gray-400"
+                      />
+                    )}
+                  </div>
+                </div>
               </div>
               <div className="input-box">
                 <span className="details">Confirm Password</span>
-                <input
-                  type="password"
-                  name="cpassword"
-                  placeholder="Confirm your Password"
-                  required
-                  value={formData.cpassword}
-                  onChange={handleChange}
-                />
+                <div className="relative">
+                  <input
+                    type={openConfirmPassword ? "text" : "password"}
+                    name="cpassword"
+                    placeholder="Confirm your Password"
+                    required
+                    value={formData.cpassword}
+                    onChange={handleChange}
+                  />
+                  <div className="absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer">
+                    {openConfirmPassword ? (
+                      <FaEyeSlash
+                        onClick={toggleConfirmPasswordVisibility}
+                        className="text-gray-400"
+                      />
+                    ) : (
+                      <FaEye
+                        onClick={toggleConfirmPasswordVisibility}
+                        className="text-gray-400"
+                      />
+                    )}
+                  </div>
+                </div>
                 <span className="message" id="message"></span>
               </div>
             </div>

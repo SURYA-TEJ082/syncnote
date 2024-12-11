@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import MainNav from "./MainNav";
 import axios from "axios";
-import toast from "react-hot-toast";import "react-toastify/dist/ReactToastify.css";
+import toast from "react-hot-toast"; import "react-toastify/dist/ReactToastify.css";
 import { BASE_URL } from "../config";
 
 const Login = () => {
@@ -11,6 +11,9 @@ const Login = () => {
     password: "",
     cpassword: "",
   });
+
+  const [openPassword, setOpenPassword] = useState(false);
+  const [openConfirmPassword, setConfirmOpenPassword] = useState(false);
 
   const [errorMessages, setErrorMessages] = useState({
     error: "",
@@ -71,7 +74,7 @@ const Login = () => {
 
       toast.success(response.data.message);
       setTimeout(() => {
-        
+
       }, 1000);
       if (response.status === 200) {
         const { name, username } = response.data;
@@ -91,6 +94,14 @@ const Login = () => {
         : "Something went wrong. Please try again.";
       toast.error(errorMessage);
     }
+  };
+
+  const togglePasswordVisibility = () => {
+    setOpenCurrent(!openPassword);
+  };
+
+  const toggleConfirmPasswordVisibility = () => {
+    setOpenCurrent(!openConfirmPassword);
   };
 
   return (
@@ -122,30 +133,61 @@ const Login = () => {
 
               <div className="input-box">
                 <span className="details">Password</span>
-                <input
-                  type="password"
-                  id="password"
-                  name="password"
-                  value={formData.password}
-                  placeholder="Enter your Password"
-                  required
-                  pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
-                  title="Must contain at least one number, one uppercase and lowercase letter, and at least 8 characters"
-                  onChange={handleChange}
-                />
+                <div className="relative">
+                  <input
+                    type={openPassword ? "text" : "password"}
+                    id="password"
+                    name="password"
+                    value={formData.password}
+                    placeholder="Enter your Password"
+                    required
+                    pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+                    title="Must contain at least one number, one uppercase and lowercase letter, and at least 8 characters"
+                    onChange={handleChange}
+                  />
+                  <div className="absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer">
+                    {openPassword ? (
+                      <FaEyeSlash
+                        onClick={togglePasswordVisibility}
+                        className="text-gray-400"
+                      />
+                    ) : (
+                      <FaEye
+                        onClick={togglePasswordVisibility}
+                        className="text-gray-400"
+                      />
+                    )}
+                  </div>
+                </div>
               </div>
-
               <div className="input-box">
                 <span className="details">Confirm Password</span>
-                <input
-                  type="password"
-                  id="cpassword"
-                  name="cpassword"
-                  value={formData.cpassword}
-                  placeholder="Confirm your Password"
-                  required
-                  onChange={handleChange}
-                />
+                <div className="relative">
+                  <input
+                    type={openConfirmPassword ? "text" : "password"}
+                    id="cpassword"
+                    name="cpassword"
+                    value={formData.cpassword}
+                    placeholder="Confirm your Password"
+                    required
+                    onChange={handleChange}
+                  />
+                  <div className="absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer">
+                    {openConfirmPassword ? (
+                      <FaEyeSlash
+                        onClick={toggleConfirmPasswordVisibility}
+                        className="text-gray-400"
+                      />
+                    ) : (
+                      <FaEye
+                        onClick={toggleConfirmPasswordVisibility}
+                        className="text-gray-400"
+                      />
+                    )}
+                  </div>
+                </div>
+
+
                 <span className="message" id="message"></span>
               </div>
             </div>
